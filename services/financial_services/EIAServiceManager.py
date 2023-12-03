@@ -1,24 +1,22 @@
 import pandas as pd
 from enum import Enum
 from typing import List, Dict
-from config import CREDENTIALS_PATH
 
 from _api_manager.rest_service_manager import ClientApp, ServiceManager
-from management.credentials.credentials_manager import CredentialsManager, CredentialKey
 
 _URL = 'https://api.eia.gov/v2/'
 
 
 class EIA(Enum):
     PETROLEUM_STOCKS = 'petroleum/stoc/wstk'
-    # PETROLEUM_PRICES = 'petroleum/prices'
-    # PETROLEUM_PRODUCTION = 'petroleum/production'
-    # PETROLEUM_IMPORTS = 'petroleum/imports'
-    # PETROLEUM_EXPORTS = 'petroleum/exports'
-    # PETROLEUM_CONSUMPTION = 'petroleum/consumption'
-    # PETROLEUM_INVENTORIES = 'petroleum/inventories'
-    # PETROLEUM_SUPPLIES = 'petroleum/supplies'
-    # PETROLEUM_DEMAND = 'petroleum/demand'
+    PETROLEUM_PRICES = 'petroleum/prices'
+    PETROLEUM_PRODUCTION = 'petroleum/production'
+    PETROLEUM_IMPORTS = 'petroleum/imports'
+    PETROLEUM_EXPORTS = 'petroleum/exports'
+    PETROLEUM_CONSUMPTION = 'petroleum/consumption'
+    PETROLEUM_INVENTORIES = 'petroleum/inventories'
+    PETROLEUM_SUPPLIES = 'petroleum/supplies'
+    PETROLEUM_DEMAND = 'petroleum/demand'
 
 
 class EIAServiceManager:
@@ -70,19 +68,3 @@ class EIAServiceManager:
             response_dataf = response_dataf[response_dataf['series'] == series_filter][['period', 'value']]
         response_dataf = response_dataf.reset_index(drop=True)
         return response_dataf if response_as_dataframe else response
-
-
-if __name__ == '__main__':
-    credentials_manager = CredentialsManager(CREDENTIALS_PATH)
-    url, api_key = credentials_manager.get_credentials(CredentialKey.EIA)
-    eia_service_manager = EIAServiceManager(client_id=api_key, client_secret='', environnement='PROD')
-    test = eia_service_manager.get_petroleum_stocks(frequency='weekly',
-                                                    data='value',
-                                                    start='2020-01-01',
-                                                    end='2023-11-24',
-                                                    sort=[{'column': 'period', 'direction': 'desc'}],
-                                                    offset=0,
-                                                    length=5000,
-                                                    area_name_filter='U.S.',
-                                                    series_filter='WCRSTUS1')
-    print()

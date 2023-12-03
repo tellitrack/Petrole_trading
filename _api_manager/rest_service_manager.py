@@ -27,7 +27,7 @@ class ClientApp:
     def __init__(self,
                  client_id: str = '',
                  client_secret: str = '',
-                 environnement: Environnement = Environnement.DEV,
+                 environnement: Environnement = Environnement.PROD,
                  ):
         self.client_id = str(client_id)
         self.client_secret = str(client_secret)
@@ -83,10 +83,10 @@ class ServiceManager:
         else:
             return f"ServiceManager for {self.api_name} initialized"
 
-    def get(self, uri_request, params='', timeout=60, verify=True):
-
+    def get(self, uri_request, headers: dict = None, params='', timeout=60, verify=True):
         return self._test_response(
-            self.session.get(url=uri_request, params=params, timeout=timeout, verify=verify), request_params=params)
+            self.session.get(url=uri_request, params=params, headers=headers, timeout=timeout, verify=verify),
+            request_params=params)
 
     def post(self, uri_request, data='', json='', timeout=60, verify=True):
         data = self._dump_data(data)
