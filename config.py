@@ -6,6 +6,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CREDENTIALS_PATH = os.path.join(BASE_DIR, 'management', 'credentials', 'credentials.yml')
+DATABASES_PETROLEUM_PATH = os.path.join(BASE_DIR, 'management', 'data', 'petroleum')
+DATABASES_CRYPTO_PATH = os.path.join(BASE_DIR, 'management', 'data', 'crypto')
 
 # TODO: amend all paths
 MAIN_PATH = 'G:\\My Drive\\Investment'
